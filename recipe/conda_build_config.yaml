@@ -1,6 +1,5 @@
 # The MacOS version 10.13 has been targeted due to the function kFSEventStreamEventFlagItemCloned that was used
 # https://developer.apple.com/documentation/coreservices/1455361-fseventstreameventflags/kfseventstreameventflagitemcloned
-# https://github.com/gorakhargosh/watchdog/blob/master/README.rst
 MACOSX_DEPLOYMENT_TARGET:  # [osx and x86_64]
   - 10.13                  # [osx and x86_64]
 CONDA_BUILD_SYSROOT:       # [osx]
