@@ -53,6 +53,7 @@ about:
   license_file: LICENSE
   summary: Filesystem events monitoring
   doc_url: http://pythonhosted.org/watchdog
+  dev_url: http://github.com/gorakhargosh/watchdog
 
 extra:
   recipe-maintainers:
