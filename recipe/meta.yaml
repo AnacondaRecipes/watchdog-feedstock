@@ -30,7 +30,7 @@ requirements:
     - wheel
   run:
     - python
-    - argh >=0.24.1
+    # Extra require
     - pyyaml >=3.10
 
 test:
