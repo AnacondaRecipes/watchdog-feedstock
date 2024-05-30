@@ -32,8 +32,14 @@ requirements:
     - pyyaml >=3.10
 
 test:
+  source_files:
+    - setup.cfg
+    - tests/
   requires:
     - pip
+    - pytest
+    - pytest-timeout
+    - pytest-cov
   imports:
     - watchdog
     - watchdog.observers
@@ -42,8 +48,9 @@ test:
     - watchdog.utils
     - _watchdog_fsevents  # [osx]
   commands:
-    - python -m pip check
+    - pip check
     - watchmedo --help
+    - pytest tests -vv
 
 about:
   home: https://github.com/gorakhargosh/watchdog
