@@ -40,6 +40,7 @@ test:
     - pytest
     - pytest-timeout
     - pytest-cov
+    - flaky
   imports:
     - watchdog
     - watchdog.observers
@@ -58,8 +59,10 @@ about:
   license_family: Apache
   license_file: LICENSE
   summary: Filesystem events monitoring
+  description: |
+    Watchdog: Python API library and shell utilities to monitor file system events.
   doc_url: https://pythonhosted.org/watchdog
-  dev_url: http://github.com/gorakhargosh/watchdog
+  dev_url: https://github.com/gorakhargosh/watchdog
 
 extra:
   recipe-maintainers:
