@@ -19,8 +19,6 @@ build:
 requirements:
   run_constrained:
     - __osx >=10.13
-    # pytests randomly failed on osx-64
-    - blas=*=openblas  # [osx and x86_64]
   build:
     - {{ compiler('c') }}  # [osx]
   host:
@@ -33,6 +31,8 @@ requirements:
     # Extra require
     - pyyaml >=3.10
 
+{% set ignore_tests = "" %}
+
 # https://github.com/gorakhargosh/watchdog/issues/1097 - Issue created.
 # For some reason win + py313 thread initialization failed on threading.Thread.start(self)
 #   emitter.start() ->
@@ -43,6 +43,12 @@ requirements:
 {% set tests_to_skip = "test___init__" %}   # [win and py>312]
 {% set tests_to_skip = tests_to_skip + " or test_root_deleted" %}  # [win and py>312]
 {% set tests_to_skip = tests_to_skip + " or test_tricks_from_file" %}  # [win and py>312]
+
+# https://github.com/gorakhargosh/watchdog/issues/1098 - Issue created.
+# Tests randomly failed on osx-64
+#  event = event_queue.get(timeout=5)[0]
+#  > raise Empty
+{% set ignore_tests = " --ignore=tests/test_emitter.py" %}  # [osx and x86_64]
 
 test:
   source_files:
@@ -67,7 +73,7 @@ test:
   commands:
     - pip check
     - watchmedo --help
-    - pytest -v tests  # [not (win and py>312)]
+    - pytest -v {{ ignore_tests }} tests  # [not (win and py>312)]
     - pytest -v {{ ignore_tests }} -k "not ({{ tests_to_skip }})" tests  # [win and py>312]
 
 about:
