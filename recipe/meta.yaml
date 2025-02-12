@@ -10,7 +10,7 @@ source:
   sha256: eebaacf674fa25511e8867028d281e602ee6500045b57f43b08778082f7f8b44
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<38]
   entry_points:
     - watchmedo = watchdog.watchmedo:main
@@ -37,7 +37,10 @@ test:
     - tests/
   requires:
     - pip
-    - pytest
+    # cannot import name 'call_runtest_hook' from '_pytest.runner'
+    # https://github.com/box/flaky/issues/198#issuecomment-1989004866
+    # We can update flaky to version 3.8.0 or add upper-bound for the pytest to save compatibility.
+    - pytest <7
     - pytest-timeout
     - pytest-cov
     - flaky
