@@ -14,7 +14,7 @@ source:
 
 build:
   number: 1
-  skip: True  # [py<38]
+  skip: True  # [py<313]
   entry_points:
     - watchmedo = watchdog.watchmedo:main
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
