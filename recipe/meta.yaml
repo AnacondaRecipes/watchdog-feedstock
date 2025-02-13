@@ -8,6 +8,9 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/watchdog-{{ version }}.tar.gz
   sha256: eebaacf674fa25511e8867028d281e602ee6500045b57f43b08778082f7f8b44
+  patches:  # [win and py>312]
+    # https://github.com/gorakhargosh/watchdog/commit/cff604e90bc562dee16a32efbe6b4471d3e64105
+    - patches/0001-fix-win-py313-threads-init.patch  # [win and py>312]
 
 build:
   number: 1
@@ -20,6 +23,7 @@ requirements:
   run_constrained:
     - __osx >=10.13
   build:
+    - m2-patch  # [win and py>312]
     - {{ compiler('c') }}  # [osx]
   host:
     - pip
@@ -32,17 +36,6 @@ requirements:
     - pyyaml >=3.10
 
 {% set ignore_tests = "" %}
-
-# https://github.com/gorakhargosh/watchdog/issues/1097 - Issue created.
-# For some reason win + py313 thread initialization failed on threading.Thread.start(self)
-#   emitter.start() ->
-#       threading.Thread.start(self) ->
-#           _start_joinable_thread(self._bootstrap, handle=self._handle, daemon=self.daemon) ->
-#                 TypeError: 'handle' must be a _ThreadHandle
-{% set ignore_tests = " --ignore=tests/test_emitter.py" %}  # [win and py>312]
-{% set tests_to_skip = "test___init__" %}   # [win and py>312]
-{% set tests_to_skip = tests_to_skip + " or test_root_deleted" %}  # [win and py>312]
-{% set tests_to_skip = tests_to_skip + " or test_tricks_from_file" %}  # [win and py>312]
 
 # https://github.com/gorakhargosh/watchdog/issues/1098 - Issue created.
 # Tests randomly failed on osx-64
@@ -73,8 +66,7 @@ test:
   commands:
     - pip check
     - watchmedo --help
-    - pytest -v {{ ignore_tests }} tests  # [not (win and py>312)]
-    - pytest -v {{ ignore_tests }} -k "not ({{ tests_to_skip }})" tests  # [win and py>312]
+    - pytest -v {{ ignore_tests }} tests
 
 about:
   home: https://github.com/gorakhargosh/watchdog
