@@ -1,5 +1,5 @@
 {% set name = "watchdog" %}
-{% set version = "4.0.1" %}
+{% set version = "4.0.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/watchdog-{{ version }}.tar.gz
-  sha256: eebaacf674fa25511e8867028d281e602ee6500045b57f43b08778082f7f8b44
-  patches:  # [win and py>312]
-    # https://github.com/gorakhargosh/watchdog/commit/cff604e90bc562dee16a32efbe6b4471d3e64105
-    - patches/0001-fix-win-py313-threads-init.patch  # [win and py>312]
+  sha256: b4dfbb6c49221be4535623ea4474a4d6ee0a9cef4a80b20c28db4d858b64e270
 
 build:
-  number: 1
-  skip: True  # [py<313]
+  number: 0
+  skip: True  # [py<38]
   entry_points:
     - watchmedo = watchdog.watchmedo:main
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
@@ -23,7 +20,6 @@ requirements:
   run_constrained:
     - __osx >=10.13
   build:
-    - m2-patch  # [win and py>312]
     - {{ compiler('c') }}  # [osx]
   host:
     - pip
@@ -35,24 +31,13 @@ requirements:
     # Extra require
     - pyyaml >=3.10
 
-{% set ignore_tests = "" %}
-
-# https://github.com/gorakhargosh/watchdog/issues/1098 - Issue created.
-# Tests randomly failed on osx-64
-#  event = event_queue.get(timeout=5)[0]
-#  > raise Empty
-{% set ignore_tests = " --ignore=tests/test_emitter.py" %}  # [osx and x86_64]
-
 test:
   source_files:
     - setup.cfg
     - tests/
   requires:
     - pip
-    # cannot import name 'call_runtest_hook' from '_pytest.runner'
-    # https://github.com/box/flaky/issues/198#issuecomment-1989004866
-    # We can update flaky to version 3.8.0 or add upper-bound for the pytest to save compatibility.
-    - pytest <7
+    - pytest
     - pytest-timeout
     - pytest-cov
     - flaky
@@ -66,7 +51,7 @@ test:
   commands:
     - pip check
     - watchmedo --help
-    - pytest -v {{ ignore_tests }} tests
+    - pytest tests -vv
 
 about:
   home: https://github.com/gorakhargosh/watchdog
