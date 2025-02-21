@@ -17,8 +17,6 @@ build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
-  run_constrained:
-    - __osx >=10.13
   build:
     - {{ compiler('c') }}  # [osx]
   host:
@@ -28,7 +26,8 @@ requirements:
     - wheel
   run:
     - python
-    # Extra require
+  run_constrained:
+    - __osx >=10.13
     - pyyaml >=3.10
 
 test:
