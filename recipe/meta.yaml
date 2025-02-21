@@ -30,6 +30,8 @@ requirements:
     - __osx >=10.13
     - pyyaml >=3.10
 
+{% set tests_to_skip = "test_renaming_top_level_directory" %}
+
 test:
   source_files:
     - pyproject.toml
@@ -50,7 +52,8 @@ test:
   commands:
     - pip check
     - watchmedo --help
-    - pytest tests -vv
+    - pytest tests -vv  # [not win]
+    - pytest -k "not ({{ tests_to_skip }})" tests -vv  # [win]
 
 about:
   home: https://github.com/gorakhargosh/watchdog
