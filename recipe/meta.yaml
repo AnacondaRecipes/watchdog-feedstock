@@ -26,9 +26,9 @@ requirements:
     - wheel
   run:
     - python
+    - pyyaml >=3.10
   run_constrained:
     - __osx >=10.13
-    - pyyaml >=3.10
 
 {% set tests_to_skip = "test_renaming_top_level_directory" %}
 
