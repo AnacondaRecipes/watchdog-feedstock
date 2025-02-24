@@ -52,7 +52,7 @@ test:
   commands:
     - pip check
     - watchmedo --help
-    - pytest tests -vv  # [not win]
+    - pytest tests -vv  # [not win] 
     - pytest -k "not ({{ tests_to_skip }})" tests -vv  # [win]
 
 about:
