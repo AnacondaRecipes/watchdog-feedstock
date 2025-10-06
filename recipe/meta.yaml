@@ -80,12 +80,10 @@ requirements:
 
 test:
   source_files:
-    - pyproject.toml
     - tests
   requires:
     - pip
     - pytest
-    - pytest-cov
     - pytest-xdist
   imports:
     - watchdog.events
