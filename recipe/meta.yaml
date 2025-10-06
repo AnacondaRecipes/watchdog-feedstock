@@ -25,9 +25,12 @@ requirements:
     - python
     - setuptools
     - wheel
+    - setuptools_scm
   run:
     - python
     - pyyaml >=3.10
+  run_constrained:
+    - __osx >=10.13
 
 # FAILED tests/test_emitter.py::test_create - AssertionError
 # FAILED tests/test_emitter.py::test_delete - AssertionError
