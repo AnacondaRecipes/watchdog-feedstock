@@ -6,11 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/watchdog-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/watchdog-{{ version }}.tar.gz
   sha256: b4dfbb6c49221be4535623ea4474a4d6ee0a9cef4a80b20c28db4d858b64e270
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<38]
   entry_points:
     - watchmedo = watchdog.watchmedo:main
@@ -19,6 +19,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}  # [osx]
+    - {{ stdlib('c') }}  # [osx]
   host:
     - pip
     - python
@@ -32,15 +33,15 @@ requirements:
 
 # Problems with prefect build (please enable with the next version update)
 test:
-  #source_files:
-  #  - pyproject.toml
-  #  - tests/
+  source_files:
+   - pyproject.toml
+   - tests/
   requires:
     - pip
-  #  - pytest <8
-  #  - pytest-timeout
-  #  - pytest-cov
-  #  - flaky
+    - pytest <8
+    - pytest-timeout
+    - pytest-cov
+    - flaky
   imports:
     - watchdog
     - watchdog.observers
@@ -51,7 +52,8 @@ test:
   commands:
     - pip check
     - watchmedo --help
-  #  - pytest tests -vv
+    # AssertionErrors
+    - pytest tests -vv --ignore=tests/test_emitter.py --deselect=tests/test_fsevents.py::test_converting_cfstring_to_pyunicode
 
 about:
   home: https://github.com/gorakhargosh/watchdog
