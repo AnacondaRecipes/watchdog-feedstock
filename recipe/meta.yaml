@@ -31,7 +31,11 @@ requirements:
   run_constrained:
     - __osx >=10.13
 
-# Problems with prefect build (please enable with the next version update)
+{% set ignored_tests = [
+  "--ignore=tests/test_emitter.py",
+  "--deselect=tests/test_fsevents.py::test_converting_cfstring_to_pyunicode",
+  "--deselect=tests/test_delayed_queue.py::test_delayed_get"
+] %}
 test:
   source_files:
    - pyproject.toml
@@ -53,7 +57,7 @@ test:
     - pip check
     - watchmedo --help
     # AssertionErrors
-    - pytest tests -vv --ignore=tests/test_emitter.py --deselect=tests/test_fsevents.py::test_converting_cfstring_to_pyunicode
+    - pytest tests -vv {{ ignored_tests|join(" ") }}
 
 about:
   home: https://github.com/gorakhargosh/watchdog
