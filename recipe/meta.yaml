@@ -95,13 +95,13 @@ test:
     - watchdog.tricks
     - watchdog.utils
     - watchdog.version
-    - watchdog.observers.inotify          # [linux]
-    - watchdog.observers.inotify_c        # [linux]
-    - watchdog.observers.inotify_buffer   # [linux]
-    - watchdog.observers.fsevents         # [osx]
-    - watchdog.observers.kqueue           # [osx]
-    - watchdog.observers.read_directory_changes  # [win]
-    - watchdog.observers.winapi                  # [win]
+    - watchdog.observers.inotify                     # [linux]
+    - watchdog.observers.inotify_c                   # [linux]
+    - watchdog.observers.inotify_move_event_grouper  # [linux]
+    - watchdog.observers.fsevents                    # [osx]
+    - watchdog.observers.kqueue                      # [osx]
+    - watchdog.observers.read_directory_changes      # [win]
+    - watchdog.observers.winapi                      # [win]
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
