@@ -1,5 +1,5 @@
 {% set name = "watchdog" %}
-{% set version = "6.0.0" %}
+{% set version = "7.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 9ddf7c82fda3ae8e24decda1338ede66e1c99883db93711d8fb941eaa2d8c282
+  sha256: d3861e255416f49a1384474cb2efa097de165fb330d4c5432ce6708b509ed922
 
 build:
   number: 0
-  skip: True  # [py<39]
+  skip: True  # [py<311]
   entry_points:
     - watchmedo = watchdog.watchmedo:main
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
@@ -97,7 +97,7 @@ test:
     - watchdog.version
     - watchdog.observers.inotify          # [linux]
     - watchdog.observers.inotify_c        # [linux]
-    - watchdog.observers.inotify_buffer   # [linux]
+    - watchdog.observers.inotify_move_event_grouper   # [linux]
     - watchdog.observers.fsevents         # [osx]
     - watchdog.observers.kqueue           # [osx]
     - watchdog.observers.read_directory_changes  # [win]
